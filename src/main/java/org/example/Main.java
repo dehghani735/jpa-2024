@@ -107,6 +107,8 @@ public class Main {
             var e2 = em.getReference(Employee.class, 1); // no query is issued to the db
             System.out.println(e2); // it is called when you do anything with the reference. it is based on decorator pattern.
 
+            e2.setName("Anne");
+
 
             em.getTransaction().commit();
         } finally {
