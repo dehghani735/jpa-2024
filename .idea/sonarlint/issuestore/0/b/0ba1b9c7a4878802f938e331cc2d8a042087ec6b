@@ -1,5 +1,8 @@
 
-X	java:S125"<This block of commented-out lines of code should be removed.(™§›8»ä½õÖ1
-X	java:S125$"<This block of commented-out lines of code should be removed.(èÖ€æ8»ä½õÖ1
-]	java:S1254"<This block of commented-out lines of code should be removed.(Êí›µøÿÿÿÿ8¼ä½õÖ1
-X	java:S125="<This block of commented-out lines of code should be removed.(á‰Ü8ëİ¢úÖ1
+o
+java:S2095V"RUse try-with-resources or close this "EntityManagerFactory" in a "finally" clause.(ë8“Ã•ûÖ1
+]	java:S125"<This block of commented-out lines of code should be removed.(©Ğ©Æøÿÿÿÿ8–Ã•ûÖ1
+X	java:S125^"<This block of commented-out lines of code should be removed.(­‰ã8›Ã•ûÖ1
+D
+java:S1481i"'Remove this unused "e1" local variable.(ÂÁ‘›8Ã•ûÖ1
+L	java:S106l"+Replace this use of System.out by a logger.(Ï®æÅùÿÿÿÿ8ûÓ¯ûÖ1
