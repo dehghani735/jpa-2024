@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Main {
 
-//    public static void main_e1(String[] args) {
+//    public static void main_e2(String[] args) {
 //
 //        String puName = "my-persistence-unit";
 //        Map<String, String> props = new HashMap<>();
@@ -76,6 +76,59 @@ public class Main {
 //        }
 //    }
 
+//    public static void main_e3(String[] args) {
+//
+//        String puName = "my-persistence-unit";
+//        Map<String, String> props = new HashMap<>();
+//        props.put("hibernate.show_sql", "true");
+//        props.put("hibernate.hbm2ddl.auto", "update"); // create, update, none
+//
+//        EntityManagerFactory emf = new HibernatePersistenceProvider()
+//                .createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(puName), props);
+////        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit"); // factory pattern design object
+//        EntityManager em = emf.createEntityManager(); // represents the context
+//
+//        try {
+//            em.getTransaction().begin();
+//
+////            var e1 = new Employee();
+////            e1.setId(1);
+////            e1.setName("John");
+////            e1.setAddress("Address");
+////
+////            em.persist(e1);
+////
+////            e1 = em.find(Employee.class, 1); // find does not make a select query from database. because it is already in the context
+////            System.out.println(e1);
+//
+//            // find vs getReference
+////            var e1 = em.find(Employee.class, 1); // always create select query
+////
+////            var e2 = em.getReference(Employee.class, 1); // no query is issued to the db
+////            System.out.println(e2); // it is called when you do anything with the reference. it is based on decorator pattern.
+////
+////            e2.setName("Anne");
+////
+////            System.out.println("Before " + e2);
+////
+////            em.refresh(e2);
+////
+////            System.out.println("After " + e2);
+//
+//            // generatedvalue.IDENTITY
+//            var e1 = new Employee();
+//            e1.setName("John");
+//            e1.setAddress("Address");
+//
+//            em.persist(e1);
+//
+//
+//            em.getTransaction().commit();
+//        } finally {
+//            em.close();
+//        }
+//    }
+
     public static void main(String[] args) {
 
         String puName = "my-persistence-unit";
@@ -88,31 +141,5 @@ public class Main {
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit"); // factory pattern design object
         EntityManager em = emf.createEntityManager(); // represents the context
 
-        try {
-            em.getTransaction().begin();
-
-//            var e1 = new Employee();
-//            e1.setId(1);
-//            e1.setName("John");
-//            e1.setAddress("Address");
-//
-//            em.persist(e1);
-//
-//            e1 = em.find(Employee.class, 1); // find does not make a select query from database. because it is already in the context
-//            System.out.println(e1);
-
-            // find vs getReference
-            var e1 = em.find(Employee.class, 1); // always create select query
-
-            var e2 = em.getReference(Employee.class, 1); // no query is issued to the db
-            System.out.println(e2); // it is called when you do anything with the reference. it is based on decorator pattern.
-
-            e2.setName("Anne");
-
-
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
     }
 }
