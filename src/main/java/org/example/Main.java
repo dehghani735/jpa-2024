@@ -2,10 +2,8 @@ package org.example;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import org.example.entities.Employee;
-import org.example.entities.Product;
-import org.example.entities.keys.ProductKey;
-import org.example.entities.Product;
+import org.example.entities.Student;
+import org.example.entities.keys.StudentKey;
 import org.example.persistence.CustomPersistenceUnitInfo;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
@@ -137,7 +135,7 @@ public class Main {
         String puName = "my-persistence-unit";
         Map<String, String> props = new HashMap<>();
         props.put("hibernate.show_sql", "true");
-        props.put("hibernate.hbm2ddl.auto", "update"); // create, update, none
+        props.put("hibernate.hbm2ddl.auto", "create"); // create, update, none
 
         EntityManagerFactory emf = new HibernatePersistenceProvider()
                 .createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(puName), props);
@@ -148,22 +146,36 @@ public class Main {
             em.getTransaction().begin();
 
             // UUIDGenerator
-            Employee e1 = new Employee();
-            e1.setName("George");
-            e1.setAddress("Some address");
-            em.persist(e1);
+//            Employee e1 = new Employee();
+//            e1.setName("George");
+//            e1.setAddress("Some address");
+//            em.persist(e1);
+//
+//            Product p1 = new Product();
+//            p1.setCode("ABC");
+//            p1.setNumber(10);
+//            p1.setColor("Red");
+//
+//            em.persist(p1);
 
-            Product p1 = new Product();
-            p1.setCode("ABC");
-            p1.setNumber(10);
-            p1.setColor("Red");
 
-            em.persist(p1);
+            // embeddable primary key
+            StudentKey id = new StudentKey();
+            id.setCode("ABC");
+            id.setNumber(10);
+
+//            Student s = new Student();
+//            s.setId(id);
+//            s.setName("John");
+//
+//            em.persist(s);
+
+            Student s = em.find(Student.class, id);
+            System.out.println(s);
 
             em.getTransaction().commit();
         } finally {
 
         }
-
     }
 }
