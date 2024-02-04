@@ -130,52 +130,59 @@ public class Main {
 //        }
 //    }
 
+//    public static void main_e4(String[] args) {
+//
+//        String puName = "my-persistence-unit";
+//        Map<String, String> props = new HashMap<>();
+//        props.put("hibernate.show_sql", "true");
+//        props.put("hibernate.hbm2ddl.auto", "create"); // create, update, none
+//
+//        EntityManagerFactory emf = new HibernatePersistenceProvider()
+//                .createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(puName), props);
+////        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit"); // factory pattern design object
+//        EntityManager em = emf.createEntityManager(); // represents the context
+//
+//        try {
+//            em.getTransaction().begin();
+//
+//            // UUIDGenerator
+////            Employee e1 = new Employee();
+////            e1.setName("George");
+////            e1.setAddress("Some address");
+////            em.persist(e1);
+////
+////            Product p1 = new Product();
+////            p1.setCode("ABC");
+////            p1.setNumber(10);
+////            p1.setColor("Red");
+////
+////            em.persist(p1);
+//
+//
+//            // embeddable primary key
+//            StudentKey id = new StudentKey();
+//            id.setCode("ABC");
+//            id.setNumber(10);
+//
+////            Student s = new Student();
+////            s.setId(id);
+////            s.setName("John");
+////
+////            em.persist(s);
+//
+//            Student s = em.find(Student.class, id);
+//            System.out.println(s);
+//
+//            em.getTransaction().commit();
+//        } finally {
+//
+//        }
+//    }
+
     public static void main(String[] args) {
 
-        String puName = "my-persistence-unit";
-        Map<String, String> props = new HashMap<>();
-        props.put("hibernate.show_sql", "true");
-        props.put("hibernate.hbm2ddl.auto", "create"); // create, update, none
-
-        EntityManagerFactory emf = new HibernatePersistenceProvider()
-                .createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(puName), props);
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit"); // factory pattern design object
-        EntityManager em = emf.createEntityManager(); // represents the context
-
-        try {
-            em.getTransaction().begin();
-
-            // UUIDGenerator
-//            Employee e1 = new Employee();
-//            e1.setName("George");
-//            e1.setAddress("Some address");
-//            em.persist(e1);
-//
-//            Product p1 = new Product();
-//            p1.setCode("ABC");
-//            p1.setNumber(10);
-//            p1.setColor("Red");
-//
-//            em.persist(p1);
 
 
-            // embeddable primary key
-            StudentKey id = new StudentKey();
-            id.setCode("ABC");
-            id.setNumber(10);
-
-//            Student s = new Student();
-//            s.setId(id);
-//            s.setName("John");
-//
-//            em.persist(s);
-
-            Student s = em.find(Student.class, id);
-            System.out.println(s);
-
-            em.getTransaction().commit();
-        } finally {
-
-        }
     }
+
 }
