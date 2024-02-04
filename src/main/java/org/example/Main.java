@@ -3,6 +3,8 @@ package org.example;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.example.entities.Employee;
+import org.example.entities.Product;
+import org.example.entities.keys.ProductKey;
 import org.example.persistence.CustomPersistenceUnitInfo;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
@@ -140,6 +142,22 @@ public class Main {
                 .createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(puName), props);
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit"); // factory pattern design object
         EntityManager em = emf.createEntityManager(); // represents the context
+
+        try {
+            em.getTransaction().begin();
+
+            Product p1 = new Product();
+            p1.setCode("ABC");
+            p1.setNumber(10);
+            p1.setColor("Red");
+
+            em.persist(p1);
+
+
+            em.getTransaction().commit();
+        } finally {
+
+        }
 
     }
 }
