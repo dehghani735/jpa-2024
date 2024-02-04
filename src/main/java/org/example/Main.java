@@ -3,6 +3,9 @@ package org.example;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.example.entities.Employee;
+import org.example.entities.Product;
+import org.example.entities.keys.ProductKey;
+import org.example.entities.Product;
 import org.example.persistence.CustomPersistenceUnitInfo;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
@@ -144,11 +147,18 @@ public class Main {
         try {
             em.getTransaction().begin();
 
-            // UUIDGenerator 
+            // UUIDGenerator
             Employee e1 = new Employee();
             e1.setName("George");
             e1.setAddress("Some address");
             em.persist(e1);
+
+            Product p1 = new Product();
+            p1.setCode("ABC");
+            p1.setNumber(10);
+            p1.setColor("Red");
+
+            em.persist(p1);
 
             em.getTransaction().commit();
         } finally {
