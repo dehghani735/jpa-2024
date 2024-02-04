@@ -1,14 +1,16 @@
 package org.example.entities;
 
 import jakarta.persistence.*;
+import org.example.entities.generators.UUIDGenerator;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "employees")
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GenericGenerator(name = "UUIDGenerator", type = UUIDGenerator.class)
+    @GeneratedValue(generator = "UUIDGenerator")
     private int id;
 
     private String name;

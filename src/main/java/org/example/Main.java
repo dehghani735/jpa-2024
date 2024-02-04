@@ -141,5 +141,19 @@ public class Main {
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit"); // factory pattern design object
         EntityManager em = emf.createEntityManager(); // represents the context
 
+        try {
+            em.getTransaction().begin();
+
+            // UUIDGenerator 
+            Employee e1 = new Employee();
+            e1.setName("George");
+            e1.setAddress("Some address");
+            em.persist(e1);
+
+            em.getTransaction().commit();
+        } finally {
+
+        }
+
     }
 }
