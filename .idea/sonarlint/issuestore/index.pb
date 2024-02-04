@@ -14,3 +14,5 @@ t
 Dsrc/main/java/org/example/persistence/CustomPersistenceUnitInfo.java,a\9\a91ccfada52f0a80935008544ad4cda502935ce3
 `
 0src/main/java/org/example/entities/Employee.java,9\8\98dc6e23b79df12c5f871f2ad1e199c54eef56ef
+g
+7src/main/java/org/example/entities/keys/ProductKey.java,0\2\0237da41c503d06838f171ceced6569eef4315f9

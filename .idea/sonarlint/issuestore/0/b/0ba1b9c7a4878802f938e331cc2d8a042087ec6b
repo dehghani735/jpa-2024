@@ -1,8 +1,13 @@
 
-o
-java:S2095V"RUse try-with-resources or close this "EntityManagerFactory" in a "finally" clause.(ë8“Ã•ûÖ1
-]	java:S125"<This block of commented-out lines of code should be removed.(©Ğ©Æøÿÿÿÿ8–Ã•ûÖ1
-X	java:S125^"<This block of commented-out lines of code should be removed.(­‰ã8›Ã•ûÖ1
-D
-java:S1481i"'Remove this unused "e1" local variable.(ÂÁ‘›8Ã•ûÖ1
-L	java:S106l"+Replace this use of System.out by a logger.(Ï®æÅùÿÿÿÿ8ûÓ¯ûÖ1
+p
+java:S2095‹"RUse try-with-resources or close this "EntityManagerFactory" in a "finally" clause.(ë8î…„—×1
+n
+java:S2095"KUse try-with-resources or close this "EntityManager" in a "finally" clause.(œŒ†ıûÿÿÿÿ8ï…„—×1
+Y
+java:S1854"6Remove this useless assignment to local variable "em".(œŒ†ıûÿÿÿÿ8ñ…„—×1
+X	java:S125"<This block of commented-out lines of code should be removed.(­‹ â8–Ã•ûÖ1
+]	java:S125O"<This block of commented-out lines of code should be removed.(¹·¡¯øÿÿÿÿ8ó…„—×1
+J
+java:S1481"'Remove this unused "em" local variable.(œŒ†ıûÿÿÿÿ8ÿ…„—×1
+\
+java:S1128":Remove this unused import 'org.example.entities.Employee'.(üÖ·áüÿÿÿÿ8ÿ…„—×1
