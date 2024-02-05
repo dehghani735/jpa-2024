@@ -2,9 +2,12 @@ package org.example;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import org.example.entities.Student;
-import org.example.entities.keys.StudentKey;
+import jakarta.persistence.TypedQuery;
+import org.example.entities.Passport;
+import org.example.entities.Person;
+import org.example.entities.User;
 import org.example.persistence.CustomPersistenceUnitInfo;
+import org.hibernate.boot.model.process.internal.UserTypeResolution;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import java.util.HashMap;
@@ -182,6 +185,46 @@ public class Main {
     public static void main(String[] args) {
 
 
+        String puName = "my-persistence-unit";
+        Map<String, String> props = new HashMap<>();
+        props.put("hibernate.show_sql", "true");
+        props.put("hibernate.hbm2ddl.auto", "create"); // create, update, none
+
+        EntityManagerFactory emf = new HibernatePersistenceProvider()
+                .createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(puName), props);
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit"); // factory pattern design object
+        EntityManager em = emf.createEntityManager(); // represents the context
+
+        try {
+            em.getTransaction().begin();
+
+            Person person = new Person();
+            person.setName("John");
+
+            Passport passport = new Passport();
+            passport.setNumber("ABC123");
+
+            person.setPassport(passport);
+            passport.setPerson(person);
+
+            em.persist(person);
+//            em.persist(passport); // not needed due to cascade
+
+            TypedQuery<Person> q = em.createQuery("Select * from Person p where p.passport.number = :number", Person.class);
+            q.setParameter("number", "ABC123");
+            System.out.println(q.getResultList());
+
+
+            User user = new User();
+            user.setName("John");
+            user.setDescription("Some user");
+
+
+
+            em.getTransaction().commit();
+        } finally {
+
+        }
 
     }
 

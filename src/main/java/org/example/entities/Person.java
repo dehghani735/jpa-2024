@@ -1,21 +1,19 @@
 package org.example.entities;
 
 import jakarta.persistence.*;
-import org.example.entities.generators.UUIDGenerator;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "employees")
-public class Employee {
+public class Person {
 
     @Id
-    @GenericGenerator(name = "UUIDGenerator", type = UUIDGenerator.class)
-    @GeneratedValue(generator = "UUIDGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
 
-    private String address;
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "passport")
+    private Passport passport;
 
     public int getId() {
         return id;
@@ -33,20 +31,20 @@ public class Employee {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public Passport getPassport() {
+        return passport;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPassport(Passport passport) {
+        this.passport = passport;
     }
 
     @Override
     public String toString() {
-        return "Employee{" +
+        return "Person{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
+                ", passport=" + passport +
                 '}';
     }
 }
