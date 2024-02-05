@@ -8,6 +8,7 @@ import org.example.persistence.CustomPersistenceUnitInfo;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -200,6 +201,8 @@ public class Main {
 
             Comment c1 = new Comment();
             c1.setContent("Content comment 1");
+
+            p.setComments(List.of(c1));
 
             c1.setPost(p);
 

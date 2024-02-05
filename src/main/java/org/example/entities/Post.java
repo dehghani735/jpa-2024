@@ -1,9 +1,8 @@
 package org.example.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Post {
@@ -15,6 +14,10 @@ public class Post {
     private String title;
 
     private String content;
+
+    @OneToMany
+    @JoinColumn(name = "post_id")
+    private List<Comment> comments;
 
     public int getId() {
         return id;
@@ -38,5 +41,13 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
