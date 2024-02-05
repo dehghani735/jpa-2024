@@ -203,7 +203,6 @@ public class Main {
             c1.setContent("Content comment 1");
 
             p.setComments(List.of(c1));
-
             c1.setPost(p);
 
             em.persist(c1);
