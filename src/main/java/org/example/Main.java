@@ -213,8 +213,6 @@ public class Main {
             u1.setGroups(List.of(g1));
             u2.setGroups(List.of(g1, g2));
 
-            em.persist(u1);
-            em.persist(u2);
             em.persist(g1);
             em.persist(g2);
 
