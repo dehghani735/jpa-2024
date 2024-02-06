@@ -202,10 +202,14 @@ public class Main {
             Comment c1 = new Comment();
             c1.setContent("Content comment 1");
 
-            p.setComments(List.of(c1));
-            c1.setPost(p);
+            Comment c2 = new Comment();
+            c2.setContent("Content comment 2");
 
-            em.persist(c1);
+            p.setComments(List.of(c1, c2));
+            c1.setPost(p);
+            c2.setPost(p);
+
+//            em.persist(c1);
             em.persist(p);
 
             em.getTransaction().commit();
