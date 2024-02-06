@@ -210,6 +210,13 @@ public class Main {
             g1.setUsers(List.of(u1, u2));
             g2.setUsers(List.of(u2));
 
+            u1.setGroups(List.of(g1));
+            u2.setGroups(List.of(g1, g2));
+
+            em.persist(u1);
+            em.persist(u2);
+            em.persist(g1);
+            em.persist(g2);
 
             em.getTransaction().commit();
         } finally {

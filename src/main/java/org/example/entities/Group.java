@@ -14,7 +14,7 @@ public class Group {
 
     private String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(
             name = "user_groups",
             joinColumns = @JoinColumn(name = "group_id"),
