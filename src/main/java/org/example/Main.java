@@ -210,17 +210,15 @@ public class Main {
             em.createQuery(sql, Product.class)
                     .getResultList().forEach(System.out::println);
 
-            var sql2 = "SELECT p from Book p";
+            var sql2 = "SELECT p from Book p"; // in single_table mode, it will automatically add where;
+            // in joined mode, it will automatically add join part;
             em.createQuery(sql2, Book.class)
                     .getResultList().forEach(System.out::println);
-
 
             em.getTransaction().commit(); // end of transaction
         } finally {
             em.close();
         }
-
-
     }
 
 }
