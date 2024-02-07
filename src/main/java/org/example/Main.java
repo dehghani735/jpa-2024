@@ -2,6 +2,9 @@ package org.example;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import org.example.entities.Book;
+import org.example.entities.ElectronicDevice;
+import org.example.entities.Product;
 import org.example.persistence.CustomPersistenceUnitInfo;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
@@ -191,6 +194,25 @@ public class Main {
 
         try {
             em.getTransaction().begin();
+
+            Book book = new Book();
+            book.setId(1L);
+            book.setAuthor("John Doe");
+
+            ElectronicDevice device = new ElectronicDevice();
+            device.setId(2L);
+            device.setVoltage(220);
+
+            em.persist(book);
+            em.persist(device);
+
+            var sql = "SELECT p from Product p";
+            em.createQuery(sql, Product.class)
+                    .getResultList().forEach(System.out::println);
+
+            var sql2 = "SELECT p from Book p";
+            em.createQuery(sql2, Book.class)
+                    .getResultList().forEach(System.out::println);
 
 
             em.getTransaction().commit(); // end of transaction
