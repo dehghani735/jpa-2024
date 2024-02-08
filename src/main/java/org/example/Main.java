@@ -194,7 +194,7 @@ public class Main {
             em.getTransaction().begin();
 
             String jpql7 = """
-                    SELECT NEW org.example.dto.EnrolledStudent(s, (SELECT count(e) FROM Enrollment e where e.student = s) ) 
+                    SELECT NEW org.example.dto.CountedEnrollmentStudent(s, count(s) ) 
                     From Student s
                     """;
             TypedQuery<CountedEnrollmentStudent> q2 = em.createQuery(jpql7, CountedEnrollmentStudent.class);
@@ -205,5 +205,4 @@ public class Main {
             em.close();
         }
     }
-
 }
