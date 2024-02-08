@@ -1,43 +1,44 @@
 package org.example.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import org.example.entities.keys.ProductKey;
+
+import java.math.BigDecimal;
 
 @Entity
-@IdClass(ProductKey.class)
 public class Product {
 
     @Id
-    private String code;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Id
-    private long number;
+    private String name;
 
-    private String color;
+    private BigDecimal price;
 
-    public String getCode() {
-        return code;
+    public Long getId() {
+        return id;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public long getNumber() {
-        return number;
+    public String getName() {
+        return name;
     }
 
-    public void setNumber(long number) {
-        this.number = number;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getColor() {
-        return color;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }
