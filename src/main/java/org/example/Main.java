@@ -2,7 +2,9 @@ package org.example;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.StoredProcedureQuery;
+import org.example.entities.Student;
 import org.example.persistence.CustomPersistenceUnitInfo;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
@@ -193,12 +195,50 @@ public class Main {
         try {
             em.getTransaction().begin();
 
-            String jpql7 = """
-                    SELECT NEW org.example.dto.CountedEnrollmentStudent(s, count(s) ) 
-                    From Student s
-                    """;
-            TypedQuery<CountedEnrollmentStudent> q2 = em.createQuery(jpql7, CountedEnrollmentStudent.class);
-            q2.getResultStream().forEach(o -> System.out.println(o.s() + " " + o.count()));
+//            String jpql = """
+//                    SELECT NEW org.example.dto.CountedEnrollmentStudent(s.name, count(s))
+//                    From Student s
+//                    GROUP BY s.name
+//                    HAVING s.name LIKE '%e'
+//                    ORDER BY s.name DESC
+//                    """;
+//            TypedQuery<CountedEnrollmentStudent> q2 =
+//                    em.createQuery(jpql, CountedEnrollmentStudent.class);
+//            q2.getResultStream().forEach(o -> System.out.println(o.s() + " " + o.count()));
+
+//            TypedQuery<Student> q = em.createNamedQuery("getAllEnrolledStudents", Student.class);
+//            q.getResultList().forEach(o -> System.out.println(o));
+
+            // lesson 12: Native queries
+            // SELECT s FROM Student s ->> JPQL
+//            String sql = """
+//                    SELECT * from student
+//                    """;
+//
+//            Query q = em.createNativeQuery(sql, Student.class);
+//            q.getResultList().forEach(
+//                    s -> System.out.println(s)
+//            );
+
+            // first way to move complexity to the database layer: view
+//            String sql = "select s DistinctStudent s"; // TODO create view in the database
+//            TypedQuery<DistinctStudent> q = em.createQuery(sql, DistinctStudent.class);
+//            q.getResultList().forEach(s -> System.out.println(s));
+//
+            // second way: functions and stored procedures
+//            """
+//                    create procedure GetStudents(IN id INT)
+//                    BEGIN
+//                        SELECT * from student s where s.id = id;
+//                    end;
+//                    """
+            StoredProcedureQuery q = em.createStoredProcedureQuery("GetStudents", Student.class)
+                    .registerStoredProcedureParameter("id", Integer.class, ParameterMode.IN)
+                    .setParameter("id", 2);
+
+
+            q.getResultList().forEach(s -> System.out.println(s));
+
 
             em.getTransaction().commit();
         } finally {
