@@ -7,30 +7,30 @@ import jakarta.persistence.OneToMany;
 import java.util.List;
 
 @Entity
-public class Student {
+public class Course {
 
     @Id
-    private Long id;
+    private long id;
 
-    private String name;
+    private String title;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "course")
     private List<Enrollment> enrollments;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public List<Enrollment> getEnrollments() {
@@ -43,9 +43,9 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
+        return "Course{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", enrollments=" + enrollments +
                 '}';
     }
