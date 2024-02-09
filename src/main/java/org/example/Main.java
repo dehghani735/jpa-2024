@@ -2,8 +2,11 @@ package org.example;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import org.example.entities.Student;
-import org.example.entities.keys.StudentKey;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import org.example.entities.Customer;
 import org.example.persistence.CustomPersistenceUnitInfo;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
@@ -181,8 +184,55 @@ public class Main {
 
     public static void main(String[] args) {
 
+        String puName = "my-persistence-unit";
+        Map<String, String> props = new HashMap<>();
+        props.put("hibernate.show_sql", "true");
+        props.put("hibernate.hbm2ddl.auto", "create"); // create, update, none
 
+        EntityManagerFactory emf = new HibernatePersistenceProvider()
+                .createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(puName), props);
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit"); // factory pattern design object
+        EntityManager em = emf.createEntityManager(); // represents the context
 
+        try {
+            em.getTransaction().begin();
+
+//            CriteriaBuilder builder = em.getCriteriaBuilder();
+////            CriteriaQuery<Customer> cq = builder.createQuery(Customer.class);
+//            CriteriaQuery<String> cq = builder.createQuery(String.class);
+//
+//            Root<Customer> customerRoot = cq.from(Customer.class); // in from, it should be an entity
+//
+////            cq.select(customerRoot); // SELECT c FROM Customer c
+//            cq.select(customerRoot.get("name")); // SELECT c.name FROM Customer c
+//
+////            TypedQuery<Customer> query = em.createQuery(cq);
+//            TypedQuery<String> query = em.createQuery(cq);
+//            query.getResultList().forEach(System.out::println);
+
+            //
+
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+//            CriteriaQuery<Customer> cq = builder.createQuery(Customer.class);
+            CriteriaQuery<Object[]> cq = builder.createQuery(Object[].class);
+
+            Root<Customer> customerRoot = cq.from(Customer.class); // in from, it should be an entity
+
+//            important note: if I use cq.from(Customer.class); every time, it will join tables
+//            cq.select(customerRoot); // SELECT c FROM Customer c
+            cq.multiselect(customerRoot.get("name"), builder.sum(customerRoot.get("id"))); // select c.name, c.id from customer
+//            if (conditions)
+            cq.where(builder.ge(customerRoot.get("id"), 5));
+            cq.groupBy(customerRoot.get("name"));
+            cq.orderBy(builder.desc(customerRoot.get("id"))); // SELECT c.name FROM Customer c order by c.id desc
+
+//            TypedQuery<Customer> query = em.createQuery(cq);
+            TypedQuery<Object[]> query = em.createQuery(cq);
+            query.getResultList().forEach(o -> System.out.println(o[0] + " " + o[1]));
+
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
-
 }
