@@ -1,13 +1,15 @@
 package org.example;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import org.example.entities.Student;
-import org.example.entities.keys.StudentKey;
+import jakarta.persistence.*;
+import jakarta.persistence.criteria.*;
+import org.example.entities.Author;
+import org.example.entities.Book;
+import org.example.entities.BookShop;
 import org.example.persistence.CustomPersistenceUnitInfo;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class Main {
@@ -181,8 +183,59 @@ public class Main {
 
     public static void main(String[] args) {
 
+        String puName = "my-persistence-unit";
+        Map<String, String> props = new HashMap<>();
+        props.put("hibernate.show_sql", "true");
+        props.put("hibernate.hbm2ddl.auto", "create"); // create, update, none
+
+        EntityManagerFactory emf = new HibernatePersistenceProvider()
+                .createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(puName), props);
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit"); // factory pattern design object
+        EntityManager em = emf.createEntityManager(); // represents the context
+
+        try {
+            em.getTransaction().begin();
+
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+
+            // =============
+//            CriteriaQuery<Tuple> cq = builder.createTupleQuery();
+//
+//            // Author, Book
+//            Root<Book> bookRoot = cq.from(Book.class); // SELECT b From Book b;
+//            Join<Book, Author> joinAuthor = bookRoot.join("authorsList", JoinType.LEFT);
+//            Join<Book, BookShop> joinBookShop = bookRoot.join("bookShopList", JoinType.INNER);
+//
+//            cq.multiselect(bookRoot, joinAuthor, joinBookShop); // select b, a From Book b Inner join Author a
+//
+//            TypedQuery<Tuple> q = em.createQuery(cq);
+//            q.getResultStream().forEach(t -> System.out.println(t.get(0) + " "
+//                                                                + t.get(1) + " "
+//                                                                + t.get(2)));
+            // ==============
+
+            CriteriaQuery<Author> mainQuery = builder.createQuery(Author.class);
+            // Select a, (Select count(b) from Book b where b.id in a.bookList) n from Author a where n > 2
+            // better: select a, (select count(b) from Book b join Author a on b.id in a.booksList) n from author a where n > 2
+            Root<Author> authorRoot = mainQuery.from(Author.class);
+
+            Subquery<Long> subquery = mainQuery.subquery(Long.class);
+            Root<Author> subRootAuthor = subquery.correlate(authorRoot); // we correlate the inside with the outside
+            Join<Author, Book> authorBookJoin = subRootAuthor.join("booksList");
+
+            subquery.select(builder.count(authorBookJoin));
+            mainQuery.select(authorRoot)
+                    .where(builder.greaterThan(subquery, 1L));
+
+            TypedQuery<Author> q = em.createQuery(mainQuery);
+            q.getResultStream()
+                            .forEach(a -> System.out.println(a));
 
 
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
 
 }
