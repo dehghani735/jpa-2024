@@ -2,8 +2,6 @@ package org.example;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import org.example.entities.Student;
-import org.example.entities.keys.StudentKey;
 import org.example.persistence.CustomPersistenceUnitInfo;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
@@ -180,8 +178,25 @@ public class Main {
 //    }
 
     public static void main(String[] args) {
+        String puName = "my-persistence-unit";
+        Map<String, String> props = new HashMap<>();
+        props.put("hibernate.show_sql", "true");
+        props.put("hibernate.hbm2ddl.auto", "create"); // create, update, none
+
+        EntityManagerFactory emf = new HibernatePersistenceProvider()
+                .createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(puName), props);
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit"); // factory pattern design object
+        EntityManager em = emf.createEntityManager(); // represents the context
+
+        try {
+            em.getTransaction().begin();
 
 
+
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
 
     }
 
