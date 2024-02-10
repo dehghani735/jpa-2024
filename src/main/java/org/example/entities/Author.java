@@ -6,6 +6,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "authors")
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = "Author.eagerlyFetchBooks",
+                attributeNodes = @NamedAttributeNode("booksList")
+        )
+})
 public class Author {
 
     @Id
