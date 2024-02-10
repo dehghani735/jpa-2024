@@ -1,12 +1,16 @@
 package org.example;
 
+import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Subgraph;
+import org.example.entities.Author;
 import org.example.persistence.CustomPersistenceUnitInfo;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -191,7 +195,26 @@ public class Main {
         try {
             em.getTransaction().begin();
 
+            // n+1 query problem. 1 query for fetching authors, for each one, one query to fetch books
+            em.createQuery("SELECT a From Author a", Author.class)
+                    .getResultList()
+                    .forEach(a -> System.out.println(a.getBooksList()));
 
+            // Author -> Book -> BookShop
+            EntityGraph<?> graph = em.createEntityGraph(Author.class);
+//            graph.addAttributeNodes("booksList");
+//            graph.addAttributeNodes("bookShopList"); // ! NOPE (author has no direct relationship to bookshop)
+            Subgraph<?> bookSubgraph = graph.addSubgraph("booksList");
+            bookSubgraph.addAttributeNodes("bookShopList");
+
+            em.createQuery("SELECT a From Author a", Author.class)
+                    .setHint("jakarta.persistence.loadgraph", graph)
+                    .getResultList()
+                    .forEach(a -> System.out.println(
+                            a.getBooksList().stream()
+                                    .map(b -> b.getBookShopList())
+                                    .collect(Collectors.toList())
+                    ));
 
             em.getTransaction().commit();
         } finally {
