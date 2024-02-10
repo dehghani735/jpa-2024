@@ -10,6 +10,14 @@ import java.util.Set;
         @NamedEntityGraph(
                 name = "Author.eagerlyFetchBooks",
                 attributeNodes = @NamedAttributeNode("booksList")
+        ),
+        @NamedEntityGraph(
+                name = "Author.eagerlyFetchBookShops",
+                subgraphs = @NamedSubgraph(
+                        name = "booksList",
+                        type = Book.class,
+                        attributeNodes = @NamedAttributeNode("bookShopList")
+                )
         )
 })
 public class Author {

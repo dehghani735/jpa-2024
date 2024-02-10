@@ -216,7 +216,7 @@ public class Main {
                                     .collect(Collectors.toList())
                     ));
 
-            EntityGraph<?> graph1 = em.getEntityGraph("Author.eagerlyFetchBooks");
+            EntityGraph<?> graph1 = em.getEntityGraph("Author.eagerlyFetchBookShops");
             em.createQuery("SELECT a From Author a", Author.class)
                     .setHint("jakarta.persistence.loadgraph", graph1)
                     .getResultList()
